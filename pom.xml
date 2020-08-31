@@ -170,7 +170,6 @@
             <arg>-Amicronaut.processing.group=co.com.mercadolibre</arg>
             <arg>-Amicronaut.processing.module=planetary-weather-forecast</arg>
             <arg>-Amicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</arg>
-<!--            <arg>-J-Dmicronaut.server.context-path=/planetary-weather</arg>-->
           </compilerArgs>
         </configuration>
         <executions>

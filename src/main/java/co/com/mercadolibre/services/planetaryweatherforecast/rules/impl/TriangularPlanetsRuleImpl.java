@@ -21,6 +21,14 @@ import static co.com.mercadolibre.services.planetaryweatherforecast.constants.We
 public class TriangularPlanetsRuleImpl implements IRule<PlanetLocationInfoDto, RuleResultDto> {
 
     private IRule<PlanetLocationInfoDto,RuleResultDto> nextRule;
+    private PointLocationInTriangleUtil pointLocationInTriangleUtil;
+    private InCenterCoordinatesUtil inCenterCoordinatesUtil;
+
+    public TriangularPlanetsRuleImpl(PointLocationInTriangleUtil pointLocationInTriangleUtil,
+                                     InCenterCoordinatesUtil inCenterCoordinatesUtil){
+        this.pointLocationInTriangleUtil = pointLocationInTriangleUtil;
+        this.inCenterCoordinatesUtil = inCenterCoordinatesUtil;
+    }
 
     @Override
     public RuleResultDto evaluate(List<PlanetLocationInfoDto> data) {
@@ -34,13 +42,13 @@ public class TriangularPlanetsRuleImpl implements IRule<PlanetLocationInfoDto, R
 
         //extract planets coordinates in Triangle object
         var planetsTriangularFormation = new Triangle(data.get(0).getCoordinates(),data.get(1).getCoordinates(),data.get(2).getCoordinates());
-        var locationInTriangle = PointLocationInTriangleUtil.retrieveLocation(planetsTriangularFormation);
+        var locationInTriangle = this.pointLocationInTriangleUtil.retrieveLocationOriginInside(planetsTriangularFormation);
 
         if(PointLocationInTriangle.INSIDE.equals(locationInTriangle)){
 
-            var sunIsInCenter = InCenterCoordinatesUtil.isPointInCenter(planetsTriangularFormation);
+            var sunIsInCenter = this.inCenterCoordinatesUtil.isPointInCenter(planetsTriangularFormation);
 
-            resultDto.setInCenter(InCenterCoordinatesUtil.retrieveInCenter(planetsTriangularFormation));
+            resultDto.setInCenter(this.inCenterCoordinatesUtil.retrieveInCenter(planetsTriangularFormation));
             resultDto.setWeatherType(WeatherType.RAIN);
             resultDto.setPlanetAlignmentType(sunIsInCenter ? TRIANGULAR_WITH_THE_SUN_IN_THE_CENTER : TRIANGULAR_WITH_THE_SUN_INSIDE);
             resultDto.setWeatherIntensity(sunIsInCenter ? MAX : NORMAL);

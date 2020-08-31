@@ -17,16 +17,21 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Singleton
 public class PlanetLocationServiceImpl implements PlanetLocationService {
 
     private final List<PlanetInfoConfiguration> planetInfoConfigurationList;
+    private CoordinatesCalculatorUtil coordinatesCalculatorUtil;
+    private AngleCalculatorUtil angleCalculatorUtil;
 
     @Inject
-    public PlanetLocationServiceImpl(List<PlanetInfoConfiguration> planetInfoConfigurationList){
+    public PlanetLocationServiceImpl(List<PlanetInfoConfiguration> planetInfoConfigurationList,
+                                     CoordinatesCalculatorUtil coordinatesCalculatorUtil,
+                                     AngleCalculatorUtil angleCalculatorUtil){
         this.planetInfoConfigurationList =planetInfoConfigurationList;
+        this.coordinatesCalculatorUtil = coordinatesCalculatorUtil;
+        this.angleCalculatorUtil = angleCalculatorUtil;
     }
 
     @PostConstruct
@@ -55,10 +60,10 @@ public class PlanetLocationServiceImpl implements PlanetLocationService {
     private PlanetLocationInfoDto retrieveLocationInfo(PlanetInfoConfiguration planetInfo, int day){
 
         final var equivalentDay = day;
-        final var currentAngle = AngleCalculatorUtil.retrieveAngleByDayAndRotationType(equivalentDay,planetInfo.getAngularVelocity());
+        final var currentAngle = this.angleCalculatorUtil.retrieveAngleByDayAndRotationType(equivalentDay,planetInfo.getAngularVelocity());
         final var coordinates = new Point2D();
-        coordinates.setXComponent(CoordinatesCalculatorUtil.retrieveXCoordinate(currentAngle,planetInfo.getSolarDistance()));
-        coordinates.setYComponent(CoordinatesCalculatorUtil.retrieveYCoordinate(currentAngle,planetInfo.getSolarDistance(),planetInfo.getRotation()));
+        coordinates.setXComponent(this.coordinatesCalculatorUtil.retrieveXCoordinate(currentAngle,planetInfo.getSolarDistance()));
+        coordinates.setYComponent(this.coordinatesCalculatorUtil.retrieveYCoordinate(currentAngle,planetInfo.getSolarDistance(),planetInfo.getRotation()));
 
         final var planetLocationInfoDto = new PlanetLocationInfoDto();
         planetLocationInfoDto.setPlanetName(planetInfo.getName());
@@ -75,7 +80,7 @@ public class PlanetLocationServiceImpl implements PlanetLocationService {
     }
 
     private long retrieveYear(int day, float maxDaysInYear){
-        return  (long)(day/maxDaysInYear);
+        return  ((long)(day/maxDaysInYear)) + 1;
     }
 
     private String calculatePlanetDay(float equivalentDay){

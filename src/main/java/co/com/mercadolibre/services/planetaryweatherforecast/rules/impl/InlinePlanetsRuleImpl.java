@@ -20,6 +20,11 @@ import java.util.Objects;
 public class InlinePlanetsRuleImpl implements IRule<PlanetLocationInfoDto, RuleResultDto> {
 
     private IRule<PlanetLocationInfoDto,RuleResultDto> nextRule;
+    private VectorUtil vectorUtil;
+
+    public InlinePlanetsRuleImpl(VectorUtil vectorUtil){
+        this.vectorUtil = vectorUtil;
+    }
 
     @Override
     public RuleResultDto evaluate(List<PlanetLocationInfoDto> data) {
@@ -50,7 +55,7 @@ public class InlinePlanetsRuleImpl implements IRule<PlanetLocationInfoDto, RuleR
 
         var resultDto = new RuleResultDto();
 
-        var result = VectorUtil.checkIfPointsAreAligned(planetA,planetB,planetC);
+        var result = this.vectorUtil.checkIfPointsAreAligned(planetA,planetB,planetC);
 
         if(result){
             resultDto.setPlanetAlignmentType(PlanetAlignmentType.INLINE_WITHOUT_THE_SUN);
@@ -64,7 +69,7 @@ public class InlinePlanetsRuleImpl implements IRule<PlanetLocationInfoDto, RuleR
 
     private void checkSunAlignment(final RuleResultDto resultDto, Point2D planetB, Point2D planetC){
 
-        var result = VectorUtil.checkIfTwoPointAreAlignedWithOrigin(planetB,planetC);
+        var result = this.vectorUtil.checkIfTwoPointAreAlignedWithOrigin(planetB,planetC);
 
         if(result){
             resultDto.setPlanetAlignmentType(PlanetAlignmentType.INLINE_WITH_THE_SUN);

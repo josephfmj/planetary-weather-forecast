@@ -44,3 +44,7 @@ forecast:
 forkjoin:
   pool: 2
   threshold: 20
+
+calculations:
+  epsilon: 0.01
+
