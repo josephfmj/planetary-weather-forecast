@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>co.com.mercadolibre.services</groupId>
   <artifactId>planetary-weather-forecast</artifactId>
-  <version>0.1</version>
+  <version>1.0</version>
 
   <parent>
     <groupId>io.micronaut</groupId>
@@ -18,10 +18,11 @@
     <maven.compiler.source>${jdk.version}</maven.compiler.source>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <micronaut.version>2.0.0</micronaut.version>
+    <micronaut.version>2.0.1</micronaut.version>
     <exec.mainClass>co.com.mercadolibre.services.planetaryweatherforecast.Application</exec.mainClass>
     <maven-surefire-plugin.version>2.22.2</maven-surefire-plugin.version>
     <maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
+    <micronaut.openapi.version>1.5.2</micronaut.openapi.version>
   </properties>
 
   <repositories>
@@ -59,13 +60,13 @@
       <scope>compile</scope>
     </dependency>
     <dependency>
-      <groupId>io.micronaut.mongodb</groupId>
-      <artifactId>micronaut-mongo-reactive</artifactId>
-    </dependency>
-    <dependency>
       <groupId>javax.annotation</groupId>
       <artifactId>javax.annotation-api</artifactId>
       <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut.mongodb</groupId>
+      <artifactId>micronaut-mongo-reactive</artifactId>
     </dependency>
     <dependency>
       <groupId>ch.qos.logback</groupId>
@@ -86,6 +87,20 @@
       <groupId>io.micronaut.test</groupId>
       <artifactId>micronaut-test-junit5</artifactId>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.12</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.micronaut</groupId>
+      <artifactId>micronaut-management</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.swagger.core.v3</groupId>
+      <artifactId>swagger-annotations</artifactId>
     </dependency>
   </dependencies>
 
@@ -131,19 +146,31 @@
           <!-- <useIncrementalCompilation>false</useIncrementalCompilation> -->
           <annotationProcessorPaths>
             <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>1.18.12</version>
+            </path>
+            <path>
+              <groupId>io.micronaut.configuration</groupId>
+              <artifactId>micronaut-openapi</artifactId>
+              <version>1.5.2</version>
+            </path>
+            <path>
               <groupId>io.micronaut</groupId>
               <artifactId>micronaut-inject-java</artifactId>
               <version>${micronaut.version}</version>
             </path>
             <path>
-              <groupId>io.micronaut</groupId>
-              <artifactId>micronaut-validation</artifactId>
-              <version>${micronaut.version}</version>
+              <groupId>io.micronaut.configuration</groupId>
+              <artifactId>micronaut-openapi</artifactId>
+              <version>${micronaut.openapi.version}</version>
             </path>
           </annotationProcessorPaths>
           <compilerArgs>
             <arg>-Amicronaut.processing.group=co.com.mercadolibre</arg>
             <arg>-Amicronaut.processing.module=planetary-weather-forecast</arg>
+            <arg>-Amicronaut.openapi.views.spec=rapidoc.enabled=true,swagger-ui.enabled=true,swagger-ui.theme=flattop</arg>
+<!--            <arg>-J-Dmicronaut.server.context-path=/planetary-weather</arg>-->
           </compilerArgs>
         </configuration>
         <executions>
@@ -171,6 +198,4 @@
       </plugin>
     </plugins>
   </build>
-
-
 </project>

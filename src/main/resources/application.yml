@@ -1,3 +1,46 @@
 micronaut:
   application:
     name: planetaryWeatherForecast
+  server:
+    context-path: /planetary-weather
+  router:
+    static-resources:
+        default:
+          enabled: true
+        swagger:
+          paths: "classpath:META-INF/swagger"
+          mapping: "/swagger/**"
+        rapidoc:
+          paths: "classpath:META-INF/swagger/views/rapidoc"
+          mapping: "/rapidoc/**"
+        swagger-ui:
+          paths: "classpath:META-INF/swagger/views/swagger-ui"
+          mapping: "/swagger-ui/**"
+
+mongodb:
+  uri: mongodb://localhost:27017
+
+mongo-client:
+  database: weather
+  collections:
+    forecast: forecast
+    process: process
+
+forecast:
+  planets:
+    Ferengi:
+      angular-velocity: 1
+      solar-distance: 500
+      rotation: CW
+    Betasoide:
+      angular-velocity: 3
+      solar-distance: 2000
+      rotation: CW
+    Vulcano:
+      angular-velocity: 5
+      solar-distance: 1000
+      rotation: ACW
+
+forkjoin:
+  pool: 2
+  threshold: 20
