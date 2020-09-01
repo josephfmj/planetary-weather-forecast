@@ -8,8 +8,6 @@ import io.micronaut.context.annotation.Value;
 import io.reactivex.Flowable;
 import io.reactivex.Single;
 import org.bson.types.ObjectId;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Singleton;
 
@@ -21,7 +19,6 @@ import static com.mongodb.client.model.Filters.eq;
 @Singleton
 public class WeatherForecastRepositoryImpl implements WeatherForecastRepository {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(WeatherForecastRepositoryImpl.class);
     private final MongoDBClientConfiguration mongoDBClientConfiguration;
     private String forecastDataBase;
 
