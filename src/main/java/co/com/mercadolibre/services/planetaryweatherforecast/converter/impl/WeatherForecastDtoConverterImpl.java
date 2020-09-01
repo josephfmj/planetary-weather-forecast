@@ -24,7 +24,6 @@ public class WeatherForecastDtoConverterImpl implements WeatherForecastDtoConver
         responseWeatherForecastDto.setPlanetAlignmentType(weatherForecastEntity.getPlanetAlignmentType().name());
         responseWeatherForecastDto.setCoordinates(weatherForecastEntity.getCoordinates());
         responseWeatherForecastDto.setId(weatherForecastEntity.getId().toString());
-        responseWeatherForecastDto.setExactDay(weatherForecastEntity.getExactDay());
         responseWeatherForecastDto.setOrbitalAngle(weatherForecastEntity.getOrbitalAngle());
         responseWeatherForecastDto.setYear(weatherForecastEntity.getYear());
         responseWeatherForecastDto.setPlanetName(weatherForecastEntity.getPlanetName());
@@ -42,7 +41,6 @@ public class WeatherForecastDtoConverterImpl implements WeatherForecastDtoConver
 
         weatherForecastEntity.setPlanetAlignmentType(PlanetAlignmentType.valueOf(responseWeatherForecastDto.getPlanetAlignmentType()));
         weatherForecastEntity.setCoordinates(responseWeatherForecastDto.getCoordinates());
-        weatherForecastEntity.setExactDay(responseWeatherForecastDto.getExactDay());
         weatherForecastEntity.setOrbitalAngle(responseWeatherForecastDto.getOrbitalAngle());
         weatherForecastEntity.setYear(responseWeatherForecastDto.getYear());
         weatherForecastEntity.setPlanetName(responseWeatherForecastDto.getPlanetName());

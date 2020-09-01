@@ -12,8 +12,6 @@ import co.com.mercadolibre.services.planetaryweatherforecast.utils.CoordinatesCa
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -59,8 +57,7 @@ public class PlanetLocationServiceImpl implements PlanetLocationService {
 
     private PlanetLocationInfoDto retrieveLocationInfo(PlanetInfoConfiguration planetInfo, int day){
 
-        final var equivalentDay = day;
-        final var currentAngle = this.angleCalculatorUtil.retrieveAngleByDayAndRotationType(equivalentDay,planetInfo.getAngularVelocity());
+        final var currentAngle = this.angleCalculatorUtil.retrieveAngleByDayAndRotationType(day,planetInfo.getAngularVelocity());
         final var coordinates = new Point2D();
         coordinates.setXComponent(this.coordinatesCalculatorUtil.retrieveXCoordinate(currentAngle,planetInfo.getSolarDistance()));
         coordinates.setYComponent(this.coordinatesCalculatorUtil.retrieveYCoordinate(currentAngle,planetInfo.getSolarDistance(),planetInfo.getRotation()));
@@ -69,8 +66,7 @@ public class PlanetLocationServiceImpl implements PlanetLocationService {
         planetLocationInfoDto.setPlanetName(planetInfo.getName());
         planetLocationInfoDto.setAngle(currentAngle);
         planetLocationInfoDto.setCoordinates(coordinates);
-        planetLocationInfoDto.setPlanetDay(this.calculatePlanetDay(equivalentDay));
-        planetLocationInfoDto.setExactDay(equivalentDay);
+        planetLocationInfoDto.setPlanetDay(day);
         // this is de day of slowest planet, to reference in database
         planetLocationInfoDto.setReferenceId(day);
         planetLocationInfoDto.setYear(this.retrieveYear(day, planetInfo.getMaxDaysInYear()));
@@ -81,16 +77,5 @@ public class PlanetLocationServiceImpl implements PlanetLocationService {
 
     private long retrieveYear(int day, float maxDaysInYear){
         return  ((long)(day/maxDaysInYear)) + 1;
-    }
-
-    private String calculatePlanetDay(float equivalentDay){
-
-        var planetDay = String.valueOf((int)equivalentDay);
-
-        if((equivalentDay%1) != 0){
-            planetDay =  new BigDecimal(equivalentDay).setScale(1, RoundingMode.HALF_UP).toString();
-        }
-
-        return planetDay;
     }
 }

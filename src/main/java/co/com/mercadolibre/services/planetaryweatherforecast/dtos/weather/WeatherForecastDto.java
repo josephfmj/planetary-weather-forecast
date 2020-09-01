@@ -14,8 +14,7 @@ public class WeatherForecastDto {
 
     private String id;
     private String planetName;
-    private String planetDay;
-    private float exactDay;
+    private int planetDay;
     private long referenceId;
     private long year;
     private float orbitalAngle;

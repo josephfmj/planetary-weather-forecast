@@ -33,6 +33,7 @@ public class CoordinatesCalculatorUtilImpl implements CoordinatesCalculatorUtil 
         return ySignDirection * calculateCoordinateInQuadrant(angle, yCoordinateFunction);
     }
 
+    //evaluate angle to retrieve the 0-90 degree angle equivalence and apply the function
     private static double calculateCoordinateInQuadrant(final double angle, BiFunction<Double,QuadrantAngles,Double> coordinateCalculator) {
 
         var quadrant = Q1;

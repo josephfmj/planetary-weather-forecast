@@ -44,7 +44,6 @@ public class RuleResultDtoConverterImpl implements RuleResultDtoConverter {
     private void extractPlanetLocationInfo(final WeatherForecastEntity weatherForecastEntity, final PlanetLocationInfoDto planetLocationInfoDto){
 
         weatherForecastEntity.setCoordinates(planetLocationInfoDto.getCoordinates());
-        weatherForecastEntity.setExactDay(planetLocationInfoDto.getExactDay());
         weatherForecastEntity.setOrbitalAngle(planetLocationInfoDto.getAngle());
         weatherForecastEntity.setPlanetName(planetLocationInfoDto.getPlanetName());
         weatherForecastEntity.setPlanetDay(planetLocationInfoDto.getPlanetDay());

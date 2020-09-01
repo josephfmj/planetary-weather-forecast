@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlanetLocationInfoDto {
     private String planetName;
-    private String planetDay;
-    private float exactDay;
+    private int planetDay;
     private long referenceId;
     private long year;
     private Point2D coordinates;
