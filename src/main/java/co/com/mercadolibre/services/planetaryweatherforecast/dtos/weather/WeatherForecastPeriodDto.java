@@ -23,20 +23,21 @@ public class WeatherForecastPeriodDto {
 
     public WeatherForecastPeriodDto(Document document){
 
-        if(Objects.nonNull(document.get("planetAlignmentType"))){
-            this.planetAlignmentType = PlanetAlignmentType.valueOf(document.getString("planetAlignmentType"));
+        var group = (Document) document.get("_id");
+
+        if(Objects.nonNull(group.get("planetAlignmentType"))){
+            this.planetAlignmentType = PlanetAlignmentType.valueOf(group.getString("planetAlignmentType"));
         }
 
-        if(Objects.nonNull(document.get("weatherStatusInfo"))){
-            var intensity = (Document) document.get("weatherStatusInfo");
-            var type = (Document) document.get("weatherStatusInfo");
-            WeatherIntensity weatherIntensity = WeatherIntensity.valueOf(intensity.getString("weatherIntensity"));
-            WeatherType weatherType = WeatherType.valueOf(type.getString("weatherType"));
+        if(Objects.nonNull(group.get("weatherStatusInfo"))){
+            var weatherInfo = (Document) group.get("weatherStatusInfo");
+            WeatherIntensity weatherIntensity = WeatherIntensity.valueOf(weatherInfo.getString("weatherIntensity"));
+            WeatherType weatherType = WeatherType.valueOf(weatherInfo.getString("weatherType"));
             this.weatherStatusInfo = new WeatherStatusInfo(weatherIntensity,weatherType);
         }
 
-        if(Objects.nonNull(document.getString("totalDays"))){
-            this.totalDays = Integer.parseInt(document.getString("totalDays"));
+        if(Objects.nonNull(document.getInteger("totalDays"))){
+            this.totalDays = document.getInteger("totalDays");
         }
 
         if(Objects.nonNull(document.getLong("year"))){

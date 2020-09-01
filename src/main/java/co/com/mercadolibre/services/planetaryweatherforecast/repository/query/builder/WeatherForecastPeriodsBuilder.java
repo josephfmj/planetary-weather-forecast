@@ -71,7 +71,8 @@ public class WeatherForecastPeriodsBuilder {
     public WeatherForecastPeriodsBuilder buildGroup(String id){
 
         if(!this.groupFiled.isEmpty()){
-            this.groupQuery = Aggregates.group(id,this.groupFiled);
+            this.groupQuery = Aggregates.group(id, this.groupFiled);
+            this.aggregations.add(this.groupQuery);
         }
 
         return this;
