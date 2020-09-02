@@ -197,4 +197,70 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>prod</id>
+      <properties>
+        <build.profile.id>prod</build.profile.id>
+      </properties>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>Copy file application.yml to external directory</id>
+                <phase>prepare-package</phase>
+                <configuration>
+                  <tasks>
+                    <!--Create directory Task-->
+                    <echo>Create config directory</echo>
+                    <mkdir dir="target/config" />
+                    <!--Copy Files Task-->
+                    <echo>Copy file of ${project.build.outputDirectory}</echo>
+                    <echo>Copy file to target/config/</echo>
+                    <copy todir="target/config/">
+                      <fileset dir="${project.build.outputDirectory}">
+                        <include name="application.yml"/>
+                      </fileset>
+                    </copy>
+                    <echo>Delete file, ubication ${project.build.outputDirectory}/</echo>
+                    <delete>
+                      <fileset dir="${project.build.outputDirectory}" includes="*.yml" />
+                    </delete>
+                    <!--Finish Task-->
+                    <echo>Finish proccess replace file application.yml</echo>
+                  </tasks>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-assembly-plugin</artifactId>
+            <version>2.2-beta-5</version>
+            <configuration>
+              <descriptors>
+                <descriptor>assembly/zip.xml</descriptor>
+              </descriptors>
+            </configuration>
+            <executions>
+              <execution>
+                <id>make-assembly</id> <!-- this is used for inheritance merges -->
+                <phase>package</phase> <!-- append to the packaging phase. -->
+                <goals>
+                  <goal>single</goal> <!-- goals == mojos -->
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
